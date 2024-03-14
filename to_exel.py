@@ -16,7 +16,7 @@ def add_data_to_excel(json_file_path, excel_file_path):
     # Создание множества уже записанных ID
     existing_ids = set(sheet[f'A{row}'].value for row in range(2, last_row + 1))
 
-    # Добавление нужных данных из JSON в файл Excel
+    # Добавление данных из JSON в файл Excel
     for item in data["data"]:
         if item["id"] not in existing_ids:
             last_row += 1
@@ -32,4 +32,3 @@ def add_data_to_excel(json_file_path, excel_file_path):
 
     # Сохранение изменений
     workbook.save(excel_file_path)
-add_data_to_excel('analysis.json', 'output.xlsx')

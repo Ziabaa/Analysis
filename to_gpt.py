@@ -1,5 +1,6 @@
 import json
 import openai
+import openpyxl
 
 #Открытие файла с ключем openai
 file = open('config.json', 'r')
@@ -7,13 +8,27 @@ config = json.load(file)
 openai.api_key = config['openai']
 
 #Считывает запись и делает запрос в llm, после чего записывает в файл json
-def recording_messages_from_llm(file_path, output_file_path, model_llm, first_prompt, second_prompt):
+def recording_messages_from_llm(file_path, output_file_path, model_llm, first_prompt, second_prompt, excel_file_path):
     # Открытие файла JSON и загрузка данных
     with open(file_path, 'r', encoding='utf-8') as file:
         data = json.load(file)
 
     # Проход по всем записям и вывод текста
     for key, value in data.items():
+
+        # Открытие существующего файла Excel
+        workbook = openpyxl.load_workbook(excel_file_path)
+        sheet = workbook.active  # получаем активный лист
+
+        # Определение последней строки в файле Excel
+        last_row = sheet.max_row
+
+        # Создание множества уже записанных ID
+        existing_ids = set(sheet[f'A{row}'].value for row in range(2, last_row + 1))
+
+        if int(key) in existing_ids:
+            continue  # Пропустить текущую итерацию цикла, если ID уже существует
+        
         inquiry = first_prompt + value + second_prompt
         #Запрос в llm
         messages = [{"role": "system", "content": inquiry}]
