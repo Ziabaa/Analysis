@@ -3,7 +3,8 @@ from to_gpt import *
 from to_exel import *
 import os
 import sys
-sys.path.append('D:/Anthropic/analysis')
+
+sys.path.append('name path')
 
 if os.path.exists('dialogs.json'):
         os.remove('dialogs.json')
@@ -24,7 +25,7 @@ try:
             "operator": "",
             "chat": {
                 "short_topic": "",
-                "classification": фінанси/обслуговування/відключення/ремонт/ПА/підключення,
+                "classification": фінанси/обслуговування/відключення/ремонт/ПА/підключення choose one
                 "mood": негативний/позитивний/нейтральний
                 "errors_in_operator_words": []
                 "issue_resolved": yes/no,
